@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
 
+import { toast, ToastContainer } from 'react-toastify';
+
 function AdminProducts() {
 
   const [products, setProducts] = useState([]);
@@ -28,8 +30,10 @@ function AdminProducts() {
       if (editingId) {
         await API.put(`/products/update/${editingId}`, form);
         setEditingId(null);
+        toast.success("Product updated successfully! ✅");
       } else {
         await API.post("/products/add", form);
+        toast.success("Product added successfully! ✅");
       }
 
       setForm({
@@ -42,13 +46,18 @@ function AdminProducts() {
 
       fetchProducts();
     } catch (err) {
-      alert("Error ❌");
+      alert("Error ❌", err);
     }
   };
 
   const handleEdit = (product) => {
     setForm(product);
     setEditingId(product.id);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   const handleDelete = async (id) => {
@@ -60,37 +69,51 @@ function AdminProducts() {
 
   return (
     <div style={{ background: "#000", minHeight: "100vh", padding: "20px" }}>
-
+      <ToastContainer />
       <h2 style={{ textAlign: "center", color: "#9b59b6" }}>
         ADMIN: PRODUCT MANAGEMENT 🛠️
       </h2>
 
-      <h3 style={{color:"#00ff37"}}>
+      <h3 style={{ color: "#00ff37" }}>
         FORM</h3>
-        
-      <div style={{ display: "flex",flexWrap: "wrap",gap: '8px', textAlign: "center", marginBottom: "20px" }}>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: '8px', textAlign: "center", marginBottom: "20px" }}>
         <input placeholder="Name" value={form.name} className="form-control bg-dark text-white border-secondary mb-3"
-        style={{ width: '15%' }}
+          style={{ width: '15%' }}
           onChange={(e) => setForm({ ...form, name: e.target.value })} />
 
         <input placeholder="Description" value={form.description} className="form-control bg-dark text-white border-secondary mb-3"
-        style={{ width: '15%' }}
+          style={{ width: '15%' }}
           onChange={(e) => setForm({ ...form, description: e.target.value })} />
 
         <input placeholder="Price" value={form.price} className="form-control bg-dark text-white border-secondary mb-3"
-        style={{ width: '15%' }}
+          style={{ width: '15%' }}
           onChange={(e) => setForm({ ...form, price: e.target.value })} />
 
-        <input placeholder="Category" value={form.category} className="form-control bg-dark text-white border-secondary mb-3"
+        {/* <input placeholder="Category" value={form.category} className="form-control bg-dark text-white border-secondary mb-3"
         style={{ width: '15%' }}
-          onChange={(e) => setForm({ ...form, category: e.target.value })} />
+          onChange={(e) => setForm({ ...form, category: e.target.value })} /> */}
+
+        <select
+          value={form.category}
+          className="form-select bg-dark text-white border-secondary mb-3"
+          style={{ width: '20%' }} // Slightly wider to fit the text
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
+        >
+          <option value="" disabled>Select Category</option>
+          <option value="marvel clothes">Marvel Clothes</option>
+          <option value="marvel magnets">Marvel Magnets</option>
+          <option value="marvel keychains">Marvel Keychains</option>
+          <option value="marvel action figures">Marvel Action Figures</option>
+          <option value="marvel tools">Marvel Replica's</option>
+        </select>
 
         <input placeholder="Image URL" value={form.imageUrl} className="form-control bg-dark text-white border-secondary mb-3"
-        style={{ width: '15%' }}
+          style={{ width: '15%' }}
           onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
 
         <button onClick={handleSubmit} className="btn fw-bold border-secondary mb-3"
-        style={{ width: '15%', backgroundColor:"#00ff26" }}>
+          style={{ width: '15%', backgroundColor: "#00ff26" }}>
           {editingId ? "Update" : "Add Product"}
         </button>
       </div>
