@@ -58,7 +58,7 @@ function MyOrders() {
       try {
         
         await API.put(`/orders/cancel/${id}`, "CANCELLED");
-        // toast.warn("Order Cancelled ❌");
+        
         toast.success("Order Cancelled Successfully ❌");
         fetchOrders(); // Refresh the list
       } catch (err) {

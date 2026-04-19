@@ -90,10 +90,6 @@ function AdminProducts() {
           style={{ width: '15%' }}
           onChange={(e) => setForm({ ...form, price: e.target.value })} />
 
-        {/* <input placeholder="Category" value={form.category} className="form-control bg-dark text-white border-secondary mb-3"
-        style={{ width: '15%' }}
-          onChange={(e) => setForm({ ...form, category: e.target.value })} /> */}
-
         <select
           value={form.category}
           className="form-select bg-dark text-white border-secondary mb-3"

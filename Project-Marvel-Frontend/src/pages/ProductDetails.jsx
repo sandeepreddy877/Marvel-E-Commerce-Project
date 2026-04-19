@@ -35,7 +35,7 @@ function ProductDetails() {
 
     // console.log("USER:", user);
     if (!user) {
-      // alert("Please login first ❗");
+      
       toast.error("Please login to add to cart! 🔑");
       setTimeout(() => {
         navigate('/login'); // Redirect to login

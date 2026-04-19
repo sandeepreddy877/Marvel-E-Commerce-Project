@@ -219,8 +219,7 @@ function CartPage() {
           Proceed to Checkout
         </button>
 
-        {/* 🔥 NEW BUTTON */}
-        {/* ✅ THE BEST SPOT: VIEW MY ORDERS BUTTON */}
+        {/* VIEW MY ORDERS BUTTON */}
         <button
           className="view-orders-btn"
           onClick={() => handleViewOrders()}

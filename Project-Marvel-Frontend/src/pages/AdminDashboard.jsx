@@ -14,8 +14,6 @@ function AdminDashboard() {
     try {
       const res = await API.get("/orders/all")
       console.log("Orders:", res.data); // 🔥 debug
-      // setAllOrders(res.data)
-
 
       // 🔥 PRIORITY MAP
       // 1 = Top (Pending), 2 = Middle (Delivered), 3 = Bottom (Cancelled)
@@ -31,7 +29,6 @@ function AdminDashboard() {
       })
 
       setAllOrders(sortedOrders)
-
 
     } catch (err) {
       console.error("Error fetching orders", err)
