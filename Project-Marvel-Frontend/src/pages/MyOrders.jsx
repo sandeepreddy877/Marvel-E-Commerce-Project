@@ -7,7 +7,7 @@ function MyOrders() {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // Fixed the Fetch logic to use the identifier from your backend logic
+
   const fetchOrders = async () => {
     if (!user) return;
     try {
@@ -19,17 +19,17 @@ function MyOrders() {
           const date = new Date(order.dateOfOrder);
           const randomDays = Math.floor(Math.random() * 5) + 2;
           date.setDate(date.getDate() + randomDays);
-      
+
           return {
             ...order,
             expectedDate: date.toISOString().split("T")[0]
           };
         }
-      
+
         return order;
       });
-      
-      
+
+
       const statusPriority = {
         "PENDING": 1,
         "DELIVERED": 2,
@@ -39,8 +39,8 @@ function MyOrders() {
       const sortedOrders = updatedOrders.sort((a, b) => {
         return statusPriority[a.deliveryStatus] - statusPriority[b.deliveryStatus];
       });
-      
-      
+
+
       setOrders(updatedOrders);
     } catch (err) {
       console.error("Error fetching orders", err);
@@ -52,13 +52,13 @@ function MyOrders() {
     fetchOrders();
   }, []);
 
-  
+
   const handleCancel = async (id) => {
     if (window.confirm("Are you sure you want to cancel this order?")) {
       try {
-        
+
         await API.put(`/orders/cancel/${id}`, "CANCELLED");
-        
+
         toast.success("Order Cancelled Successfully ❌");
         fetchOrders(); // Refresh the list
       } catch (err) {
@@ -74,7 +74,7 @@ function MyOrders() {
       <h2 className="mb-4 fw-bold text-center" style={{ color: '#00BFFF' }}>
         MY ASGARDIAN SHIPMENTS 📦
       </h2>
-      
+
       {orders.length === 0 ? (
         <p className="text-center mt-5">No orders found in the vault.</p>
       ) : (
@@ -87,7 +87,7 @@ function MyOrders() {
                 <th>Size</th>
                 <th>Qty</th>
                 <th>Price</th>
-                
+
                 <th>Address</th>
                 <th>Date</th>
                 <th>Status</th>
@@ -113,34 +113,34 @@ function MyOrders() {
                     <td>{order.size}</td>
                     <td>{order.quantity}</td>
                     <td>${order.totalPrice}</td>
-                    
-                    
+
+
                     <td style={{ fontSize: '0.8rem', maxWidth: '150px' }}>
                       {order.address || "N/A"}
                     </td>
-                    
+
                     <td>
                       {order.deliveryStatus === "PENDING"
                         ? order.expectedDate
                         : order.dateOfOrder}
                     </td>
                     <td
-                    className="fw-bold"
-                    style={{
-                      color:
-                        order.deliveryStatus === "PENDING"
-                          ? "#FFA500"   // ORANGE (pending)
-                          : order.deliveryStatus === "DELIVERED"
-                          ? "#32CD32"   // GREEN
-                          : "#FF0000"   // RED (cancelled)
-                    }}
-                  >
-                    {order.deliveryStatus}
-                  </td>
+                      className="fw-bold"
+                      style={{
+                        color:
+                          order.deliveryStatus === "PENDING"
+                            ? "#FFA500"   // ORANGE (pending)
+                            : order.deliveryStatus === "DELIVERED"
+                              ? "#32CD32"   // GREEN
+                              : "#FF0000"   // RED (cancelled)
+                      }}
+                    >
+                      {order.deliveryStatus}
+                    </td>
                     <td>
                       {order.deliveryStatus === "PENDING" && (
-                        <button 
-                          className="btn btn-sm btn-outline-danger" 
+                        <button
+                          className="btn btn-sm btn-outline-danger"
                           onClick={() => handleCancel(order.id)}
                         >
                           Cancel
