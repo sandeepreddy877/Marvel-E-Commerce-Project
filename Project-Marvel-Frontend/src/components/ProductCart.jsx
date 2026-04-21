@@ -25,7 +25,7 @@ function ProductCart({ product }) {
         <h5 className="card-title">{product.name}</h5>
 
         <p className="card-text text-success fw-bold">
-          ₹{product.price}
+          ${product.price}
         </p>
 
         <button
